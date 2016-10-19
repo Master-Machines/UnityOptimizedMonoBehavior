@@ -1,3 +1,5 @@
+Created by Derek Schindhelm
+
 Inspired by this blogpost from Unity: https://blogs.unity3d.com/2015/12/23/1k-update-calls/
 
 This project highlights a custom version of the Unity MonoBehavior and a behavior manager. It shows off the performance improvements as well as the added code complexity that is needed.

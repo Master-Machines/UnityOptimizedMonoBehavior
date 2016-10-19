@@ -18,15 +18,19 @@ public class BehaviorCreator : MonoBehaviour {
 	}
 
     public void CreateOptimizedBehaviors() {
-        for(int i = 0; i < 5000; i++) {
-            optimizedBehaviors.Add(gameObject.AddComponent<OptimizedBehavior>());
-        }
-        UpdateLabels();
+        CreateBehaviors(true);
     }
 
     public void CreateRegularBehaviors() {
+        CreateBehaviors(false);
+    }
+
+    private void CreateBehaviors(bool isOptimized) {
         for(int i = 0; i < 5000; i++) {
-            standardBehaviors.Add(gameObject.AddComponent<UnoptimizedBehavior>());
+            if(isOptimized)
+                optimizedBehaviors.Add(gameObject.AddComponent<OptimizedBehavior>());
+            else
+                standardBehaviors.Add(gameObject.AddComponent<UnoptimizedBehavior>());
         }
         UpdateLabels();
     }
@@ -35,6 +39,7 @@ public class BehaviorCreator : MonoBehaviour {
         StartCoroutine(SlowlyClearBehaviors());
     }
 
+    // Slowly Destroy the behaviors to prevent the app from seeming like it crashed.
     IEnumerator SlowlyClearBehaviors() {
         int counter = 0;
         foreach(MonoBehaviour behavior in standardBehaviors) {
@@ -59,8 +64,11 @@ public class BehaviorCreator : MonoBehaviour {
         optimizedBehaviors = new List<OptimizedBehavior>();
         UpdateLabels();
     }
-
+    
     void UpdateLabels() {
+        /** This method gets called very rarely. If it was called more frequently, 
+         *  it would be good to use a string builder or a different method to avoid all of the string concatenation here, 
+         *  as each concatenation creates garbage for the collector */
         optimizedBehaviorCount.text = "(" + optimizedBehaviors.Count + " active)";
         regularBehaviorCount.text = "(" + standardBehaviors.Count + " active)";
     }
